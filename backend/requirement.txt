@@ -1,0 +1,24 @@
+# Web Framework & API
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+
+# Orchestration & Multi-Modal RAG Framework
+llama-index>=0.10.0
+llama-index-llms-gemini
+llama-index-multi-modal-llms-gemini
+llama-index-embeddings-gemini
+llama-index-vector-stores-chroma
+
+# Vector Database & Retrieval
+chromadb
+rank-bm25
+
+# Document Parsing & Extraction
+unstructured[pdf]
+pdf2image
+pillow
+
+# Evaluation
+ragas
