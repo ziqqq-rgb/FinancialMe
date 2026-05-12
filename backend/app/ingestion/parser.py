@@ -1,7 +1,13 @@
 import logging
+import os
+from dotenv import load_dotenv
 from unstructured.partition.pdf import partition_pdf
 from unstructured.documents.elements import CompositeElement, Table, Image
 
+load_dotenv()  
+untructured_api_key = os.getenv("UNSTRUCTURED_API_KEY")
+
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class document_parser:
@@ -14,6 +20,8 @@ class document_parser:
         try:
             raw_elements = partition_pdf(
                 filename=file_path,
+                api_key=untructured_api_key,
+                url = "https://api.unstructuredapp.io/general/v0/general",
                 strategy="hi_res",                  
                 infer_table_structure=True,        
                 extract_image_block_types=["Image"],
@@ -51,7 +59,13 @@ class document_parser:
         
         return categorized_elements
     
-file_path = "./data/sample1.pdf"
-parser = document_parser()
-result = parser.process_document(file_path)
-print(result)
+## testing the parser with a sample PDF file
+    
+file_path = "../../data/sample1.pdf"
+
+if os.path.exists(file_path):
+    parser = document_parser()
+    result = parser.process_document(file_path)
+    print(result)
+else:
+    print(f"Error: Could not find file at {file_path}")
