@@ -40,17 +40,33 @@ class document_parser:
 
 # --- Test run ---
 if __name__ == "__main__":
-   sample_path = "./sample1.pdf" 
+    import os
     
-if os.path.exists(sample_path):
-        parser = document_parser()
-        res = parser.process_document(sample_path)
+    # 1. Find the path to the PDF
+    sample_path = "./sample1.pdf"
+    
+    if os.path.exists(sample_path):
+        print(f"Found PDF at: {sample_path}")
+        print("Starting Docling Parser... (This might take a few seconds)")
         
-        # Verify output
-        print(f"\nSuccessfully parsed {len(res['text'])} text blocks.")
-        if res['tables']:
-            print(f"Captured {len(res['tables'])} tables as HTML.")
-        if res['images']:
-            print(f"Extracted {len(res['images'])} images as Base64 strings.")
-else:
-    print(f"Error: Could not find PDF at {sample_path}")
+        # 2. Run the Parser
+        parser = document_parser()
+        doc = parser.process_document(sample_path)
+        
+        # 3. Verify the output
+        print("\n=== PARSE SUCCESSFUL ===")
+        
+        # Print some stats to prove it worked
+        all_items = list(doc.iterate_items())
+        print(f"Total semantic items found: {len(all_items)}")
+        print(f"Total pictures extracted: {len(doc.pictures)}")
+        print(f"Total tables extracted: {len(doc.tables)}") # <--- ADD THIS LINE
+        
+        # Print a tiny preview of the Markdown conversion to prove the text is there
+        markdown_preview = doc.export_to_markdown()
+        print("\n--- Content Preview (First 300 chars) ---")
+        print(markdown_preview[:300] + "...\n")
+        
+    else:
+        print(f"ERROR: Could not find PDF at {sample_path}")
+        print("Make sure your sample1.pdf is in the backend/data/ folder!")
