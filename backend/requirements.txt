@@ -14,11 +14,13 @@ llama-index-vector-stores-chroma
 # Vector Database & Retrieval
 chromadb
 rank-bm25
+langchain-chroma 
+langchain-huggingface 
+sentence-transformers 
+rank-bm25
 
 # Document Parsing & Extraction
-unstructured[pdf]
-pdf2image
-pillow
+docling
 
 # Evaluation
 ragas
