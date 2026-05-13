@@ -2,7 +2,6 @@ import base64
 import io
 import json
 import logging
-from typing import List, Dict
 from docling.chunking import HierarchicalChunker
 from langchain_core.documents import Document
 
@@ -10,11 +9,9 @@ logger = logging.getLogger(__name__)
 
 class DataChunker:
     def __init__(self):
-        # This is Docling's equivalent of Unstructured's 'chunk_by_title'
-        # It keeps tables and images attached to the text in their section
         self.chunker = HierarchicalChunker()
 
-    def process_and_chunk(self, doc) -> List[Document]:
+    def process_and_chunk(self, doc) -> list[Document]:
         logger.info("Starting Hierarchical Chunking (Chunk by Title)...")
         
         # 1. Create the chunks based on document layout and headings
@@ -33,7 +30,6 @@ class DataChunker:
             }
 
             # Check if this chunk contains any tables
-            # (Equivalent to checking element_type == 'Table' in teacher's repo)
             if chunk.meta.doc_items:
                 for item in chunk.meta.doc_items:
                     # If it's a table, export to HTML
@@ -53,7 +49,6 @@ class DataChunker:
             chunk_data["types"] = list(set(chunk_data["types"]))
 
             # 3. Create the LangChain Document with metadata
-            # We store the raw JSON content in metadata just like the teacher's repo
             metadata = {
                 "chunk_id": i + 1,
                 "types": chunk_data["types"],
@@ -75,7 +70,6 @@ class DataChunker:
 # --- Integration Test ---
 if __name__ == "__main__":
     from parser import document_parser
-    import os
 
     logging.basicConfig(level=logging.INFO)
     
