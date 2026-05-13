@@ -29,54 +29,11 @@ class document_parser:
                 InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
             }
         )
-
-    def process_document(self, file_path: str) -> dict:
+    def process_document(self, file_path: str):
         logger.info(f"Processing document with Docling: {file_path}")
-        
         try:
-            # Convert the document
             result = self.converter.convert(file_path)
-            doc = result.document
-            
-            categorized_elements = {
-                "text": [],
-                "tables": [],
-                "images": []
-            }
-
-            # 3. Categorize Elements
-            # We iterate through the document items to find text and tables
-            for element, _level in doc.iterate_items():
-                
-                # Extract Tables as HTML (matching your previous strategy)
-                if isinstance(element, TableItem):
-                    html_table = element.export_to_html(doc)
-                    categorized_elements["tables"].append(html_table)
-                
-                # Extract Text blocks
-                elif isinstance(element, TextItem):
-                    categorized_elements["text"].append(element.text)
-
-            # 4. Extract Images (Pictures) as Base64
-            # Docling stores extracted figures in the 'pictures' attribute
-            for i, picture in enumerate(doc.pictures):
-                # 1. Use get_image(doc) to retrieve the actual PIL image object
-                pil_image = picture.get_image(doc)
-                
-                if pil_image:
-                    buffered = io.BytesIO()
-                    # 2. Now you can call .save() because pil_image is a real PIL object
-                    pil_image.save(buffered, format="PNG")
-                    
-                    img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-                    categorized_elements["images"].append(img_str)
-
-            logger.info(f"Extraction complete: {len(categorized_elements['text'])} text, "
-                        f"{len(categorized_elements['tables'])} tables, "
-                        f"{len(categorized_elements['images'])} images.")
-            
-            return categorized_elements
-
+            return result.document # Return the raw document for the chunker!
         except Exception as e:
             logger.error(f"Docling failed to process: {str(e)}")
             raise e
