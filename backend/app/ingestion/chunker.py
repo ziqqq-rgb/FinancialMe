@@ -67,27 +67,3 @@ class DataChunker:
 
         return documents
 
-# --- Integration Test ---
-if __name__ == "__main__":
-    from parser import document_parser
-
-    logging.basicConfig(level=logging.INFO)
-    
-    # 1. Parse (returns the raw Docling 'doc' object now)
-    sample_path = "./sample1.pdf"
-    
-    parser = document_parser()
-    # Note: You will need to modify your parser.py to return 'result.document' 
-    # instead of the sorted dictionary, so the chunker can use it!
-    doc = parser.process_document(sample_path)
-
-    # 2. Chunk by Title
-    chunker = DataChunker()
-    chunks = chunker.process_and_chunk(doc)
-
-    # 3. Verify exactly like the teacher's output
-    for i, chunk in enumerate(chunks[:5]):
-        print(f"\nProcessing chunk {i+1}/{len(chunks)}")
-        print(f"Types found: {chunk.metadata['types']}")
-        content_dict = json.loads(chunk.metadata["original_content"])
-        print(f"Tables: {len(content_dict['tables_html'])}, Images: {len(content_dict['images_base64'])}")

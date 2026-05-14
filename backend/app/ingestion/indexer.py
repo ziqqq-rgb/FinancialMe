@@ -83,25 +83,3 @@ class HybridIndexer:
 
 
 
-# --- Integration Test ---
-if __name__ == "__main__":
-    from parser import document_parser
-    from chunker import DataChunker
-    from summarizer import ContentSummarizer
-    
-    # 1. Parse
-    sample_path = "./sample1.pdf"
-    parser = document_parser()
-    doc = parser.process_document(sample_path)
-
-    # 2. Chunk
-    chunker = DataChunker()
-    raw_chunks = chunker.process_and_chunk(doc)
-
-    # 3. Summarize
-    summarizer = ContentSummarizer()
-    final_chunks = summarizer.process_all_chunks(raw_chunks)
-
-    # 4. Index
-    indexer = HybridIndexer()
-    indexer.index_documents(final_chunks)

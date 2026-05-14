@@ -87,30 +87,3 @@ class ContentSummarizer:
         logger.info("Summarization complete!")
         return summarized_chunks
 
-# --- Integration Test ---
-if __name__ == "__main__":
-    from parser import document_parser
-    from chunker import DataChunker
-    
-    logging.basicConfig(level=logging.INFO)
-
-    # 1. Parse
-    sample_path = "./sample1.pdf"
-    parser = document_parser()
-    doc = parser.process_document(sample_path)
-
-    # 2. Chunk
-    chunker = DataChunker()
-    raw_chunks = chunker.process_and_chunk(doc)
-
-    # 3. Summarize!
-    summarizer = ContentSummarizer()
-    final_chunks = summarizer.process_all_chunks(raw_chunks)
-
-    # Verify the output
-    print("\n=== FINAL CHUNKS READY FOR VECTOR STORE ===")
-    for chunk in final_chunks[5:8]:
-        print(f"\nChunk ID: {chunk.metadata['chunk_id']} | Types: {chunk.metadata['types']}")
-        if "table" in chunk.metadata["types"] or "image" in chunk.metadata["types"]:
-            print("--- Content with AI Summary ---")
-            print(chunk.page_content) 
