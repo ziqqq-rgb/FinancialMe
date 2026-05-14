@@ -106,8 +106,11 @@ def run_end_to_end_test(pdf_path: str, test_query: str):
 
 
 if __name__ == "__main__":
-    TEST_PDF = "./sample2.pdf" 
+    # Dynamically get the absolute path to the 'test' directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
     
+    # Point exactly to sample2.pdf inside that test directory
+    TEST_PDF = os.path.join(current_dir, "sample2.pdf")    
     TEST_QUESTION = "What were Tesla's Total Automotive Revenues in Q1-2026?"
     
     if not os.path.exists(TEST_PDF):

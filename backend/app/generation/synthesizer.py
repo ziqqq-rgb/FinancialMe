@@ -4,11 +4,8 @@ import os
 from typing import List
 from dotenv import load_dotenv
 from langchain_core.documents import Document
-from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
-
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -18,11 +15,9 @@ class AnswerSynthesizer:
     def __init__(self):
         logger.info("Initializing Answer Synthesizer with GPT-4o...")
         
-        self.llm = ChatOpenAI(
-            model="gpt-4o-mini",  
-            temperature=0.0,
-            base_url="https://models.github.ai/inference",
-            api_key=api_key
+        self.llm = ChatOllama(
+            model="llama3.2-vision",
+            temperature=0.0
         )
         
         self.system_prompt = SystemMessage(
@@ -105,7 +100,7 @@ if __name__ == "__main__":
         bm25_persist_path="../data/bm25_index.pkl"
     )
     
-    test_query = "What is Multi-Head Attention?"
+    test_query = "What were Tesla's Total Automotive Revenues in Q1-2026?"
     retrieved_docs = retriever.retrieve(query=test_query)
     
     # 2. Synthesize the answer
