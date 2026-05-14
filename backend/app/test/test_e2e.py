@@ -6,14 +6,14 @@ from ragas import evaluate
 from ragas.metrics import AnswerRelevancy, Faithfulness
 
 # Add the app directory to the system path so we can import your modules
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../app')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app.ingestion.parser import document_parser
-from app.ingestion.chunker import DataChunker
-from app.ingestion.summarizer import ContentSummarizer
-from app.ingestion.indexer import HybridIndexer
-from app.retriever.retriever import HybridRetriever
-from app.generation.synthesizer import AnswerSynthesizer
+from ingestion.parser import document_parser
+from ingestion.chunker import DataChunker
+from ingestion.summarizer import ContentSummarizer
+from ingestion.indexer import HybridIndexer
+from retriever.retriever import HybridRetriever
+from generation.synthesizer import AnswerSynthesizer
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -21,9 +21,8 @@ logger = logging.getLogger(__name__)
 def run_end_to_end_test(pdf_path: str, test_query: str):
     logger.info("=== STARTING E2E RAG PIPELINE TEST ===")
 
-    # Define test database paths so we don't overwrite your main production DB
-    TEST_CHROMA_DIR = "../app/data/test_chromadb_store"
-    TEST_BM25_PATH = "../app/data/test_bm25_index.pkl"
+    TEST_CHROMA_DIR = "./data/test_chromadb_store"
+    TEST_BM25_PATH = "./data/test_bm25_index.pkl"
 
     # ==========================================
     # PHASE 1: INGESTION (Upload New File)
