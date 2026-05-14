@@ -1,7 +1,7 @@
 import os
 import pickle
 import logging
-import re  # ADDED: Regular expressions for robust text processing
+import re  
 from typing import List
 from langchain_core.documents import Document
 from langchain_chroma import Chroma
