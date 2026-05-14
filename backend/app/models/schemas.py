@@ -7,8 +7,8 @@ class QueryRequest(BaseModel):
 class Citation(BaseModel):
     chunk_id: str
     text: str
-    images_base64: List[str]
-    tables_html: List[str]  
+    images_base64: List[str] = []  
+    tables_html: List[str] = []    
 
 class QueryResponse(BaseModel):
     answer: str

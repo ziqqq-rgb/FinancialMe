@@ -31,12 +31,15 @@ async def query_pipeline(request: QueryRequest):
         # 3. Extract the images and text to send back as citations for the UI
         citations = []
         for doc in docs:
+            # Safely parse the metadata JSON, defaulting to empty dict if it fails
             content_dict = json.loads(doc.metadata.get("original_content", "{}"))
+            
             citations.append(
                 Citation(
                     chunk_id=str(doc.metadata.get("chunk_id", "unknown")),
                     text=doc.page_content,
-                    images_base64=content_dict.get("images_base64", [])
+                    images_base64=content_dict.get("images_base64", []),
+                    tables_html=content_dict.get("tables_html", []) # Ensure this line exists!
                 )
             )
         

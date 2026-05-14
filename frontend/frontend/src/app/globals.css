@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+/* Style the HTML tables sent by Docling so they look native to the chat */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+th, td {
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f1f5f9;
+  font-weight: 600;
+  color: #334155;
+}
+
+tr:nth-child(even) {
+  background-color: #f8fafc;
+}
